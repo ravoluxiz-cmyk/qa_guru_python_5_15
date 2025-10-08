@@ -1,18 +1,14 @@
 import pytest
-from selene import browser, be, have
+from selene.support.shared import browser
+from selene import be, have
 
-@pytest.fixture(params=[(1920, 1080), (1366, 768), (1440, 900)])
-def desktop_browser(request):
+@pytest.fixture(params=[(1920, 1080), (1366, 768), (720,1280), (1080,1920)])
+def browser(request):
     width, height = request.param
     browser.config.window_width = width
     browser.config.window_height = height
-    yield
-    browser.quit()
-
-@pytest.fixture(params=[(720,1280), (1080,1920)])
-def mobile_browser(request):
-    width, height = request.param
-    browser.config.window_width = 375
-    browser.config.window_height = 667
-    yield
+    if width >= 1080:
+        yield 'desktop_browser'
+    else:
+        yield 'mobile_browser'
     browser.quit()
