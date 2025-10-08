@@ -1,11 +1,15 @@
-"""
-Сделайте разные фикстуры для каждого теста, которые выставят размеры окна браузера
-"""
+import pytest
+from selene import browser, be, have
+from homework.conftest import desktop_browser, mobile_browser
 
-
+@pytest.mark.usefixtures("desktop_browser")
 def test_github_desktop():
-    pass
+    open.browser("https://github.com")
+    assert browser.element(".HeaderMenu-link--sign-in").should(be.visible)
+    
 
-
+@pytest.mark.usefixtures("mobile_browser")
 def test_github_mobile():
-    pass
+    open.browser("https://github.com")
+    assert browser.element("Button-label").should(be.visible)
+    
